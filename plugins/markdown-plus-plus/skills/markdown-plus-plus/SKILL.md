@@ -227,6 +227,10 @@ Attach metadata to document elements for search, processing, or custom behavior.
 <!--markers:{"Keywords": "api, documentation", "Description": "API reference guide"}-->
 ```
 
+**Values:** A simple-format value may be empty (`""`) and may contain `=` and `;`. A value that needs `"`, `-->`, or a line break must use the JSON format with JSON escapes (`\"`, `\u003e` for the `>`, `\n`). A `;` inside a marker value never separates commands.
+
+**Inline:** A `marker:` or `markers:` command can also go immediately before an inline element: `Add a <!--marker:Keywords="x"-->**term**.` On a link, put it inside the brackets, like a style tag. An inline tag must not contain `--`; put such a value in a block-level tag.
+
 **Index markers** create entries in generated indexes:
 ```markdown
 <!--marker:IndexMarker="creating projects"-->
@@ -322,6 +326,10 @@ python scripts/validate-mdpp.py document.md
 - Duplicate link reference slugs across included files (MDPP014)
 - Multiline tables with no separator rows that silently merge data rows (MDPP018)
 - Condition open/close tags inside a table row line — in-cell spans or conditional cells (MDPP019)
+- A double quote inside, or a missing closing quote on, a simple marker value (MDPP020)
+- A `-->` with no `<!--` that opens it, usually a `-->` inside a marker value (MDPP021)
+
+Every command in a combined comment tag is checked, tags inside blockquotes and on list-item marker lines are checked, and code fences indented under list items are skipped.
 
 ## Alias Generation
 
